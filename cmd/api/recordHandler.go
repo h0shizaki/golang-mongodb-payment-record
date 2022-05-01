@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"server/models"
 	"strconv"
@@ -32,6 +33,7 @@ func (app *application) addRecord(w http.ResponseWriter, r *http.Request) {
 
 	rec.Name = payload.Name
 	rec.Price, _ = strconv.ParseFloat(payload.Price, 64)
+	// location, _ := time.LoadLocation("Aisa/Bangkok")
 	rec.Date = time.Now()
 
 	err := app.models.DB.AddRecord(rec)
@@ -40,9 +42,10 @@ func (app *application) addRecord(w http.ResponseWriter, r *http.Request) {
 		app.errorJson(w, err)
 	}
 
+	recTime := rec.Date.Format(time.UnixDate)
 	resp := resp{
 		Status:  "OK",
-		Message: "Success",
+		Message: fmt.Sprintf("Added at %s", recTime),
 	}
 
 	err = app.writeJSON(w, http.StatusOK, resp)
@@ -52,3 +55,7 @@ func (app *application) addRecord(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+// {
+// 	time:{$gte:ISODate("2022-05-01")}
+// }

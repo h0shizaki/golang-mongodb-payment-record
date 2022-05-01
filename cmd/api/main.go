@@ -82,6 +82,8 @@ func main() {
 
 	logger.Println("Server is running on port ", cfg.port)
 
+	// fmt.Printf("%d-%d-01", time.Now().Year(), time.Now().Month())
+
 	err = srv.ListenAndServe()
 
 	if err != nil {
