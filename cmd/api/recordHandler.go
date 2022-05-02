@@ -105,7 +105,3 @@ func (app *application) getRecordInMonth(w http.ResponseWriter, r *http.Request)
 		return
 	}
 }
-
-// {
-// 	time:{$gte:ISODate("2022-05-01")}
-// }
