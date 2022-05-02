@@ -40,6 +40,7 @@ func (app *application) addRecord(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		app.errorJson(w, err)
+		return
 	}
 
 	recTime := rec.Date.Format(time.UnixDate)
@@ -52,8 +53,57 @@ func (app *application) addRecord(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		app.errorJson(w, err)
+		return
 	}
 
+}
+
+type body struct {
+	Status string           `json:"status"`
+	Data   []*models.Record `json:"data"`
+}
+
+func (app *application) getAllRecord(w http.ResponseWriter, r *http.Request) {
+	records, err := app.models.DB.All()
+
+	if err != nil {
+		app.errorJson(w, err)
+		return
+	}
+
+	resp := body{
+		Status: "OK",
+		Data:   records,
+	}
+
+	err = app.writeJSON(w, http.StatusOK, resp)
+
+	if err != nil {
+		app.errorJson(w, err)
+		return
+	}
+
+}
+
+func (app *application) getRecordInMonth(w http.ResponseWriter, r *http.Request) {
+	records, err := app.models.DB.WithinMonth()
+
+	if err != nil {
+		app.errorJson(w, err)
+		return
+	}
+
+	resp := body{
+		Status: "OK",
+		Data:   records,
+	}
+
+	err = app.writeJSON(w, http.StatusOK, resp)
+
+	if err != nil {
+		app.errorJson(w, err)
+		return
+	}
 }
 
 // {
