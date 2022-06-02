@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"server/models"
 	"strconv"
+	"strings"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -31,7 +32,7 @@ func (app *application) addRecord(w http.ResponseWriter, r *http.Request) {
 
 	var rec models.Record
 
-	rec.Name = payload.Name
+	rec.Name = strings.TrimSpace(payload.Name)
 	rec.Price, _ = strconv.ParseFloat(payload.Price, 64)
 	// location, _ := time.LoadLocation("Aisa/Bangkok")
 	rec.Date = time.Now()
