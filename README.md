@@ -1,7 +1,9 @@
-# Practice go backend payment record system for personal life  
-## Using tools  
-- Go v1.18.1  
-- MongoDB  
-- Docker  
-- Git  
-- Stackoverflow 🤣  
+# Readme  
+Todo  
+- Write docker-compose
+Server  
+- Load environment varialbe with util
+Cleint  
+- Just make it done  
+
+
