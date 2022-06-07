@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"os"
 	"server/models"
+	"server/utils/env"
 	"time"
 
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -19,7 +19,7 @@ import (
 const version = "1.0"
 
 type config struct {
-	port int
+	port string
 	env  string
 	db   struct {
 		dsn string
@@ -41,14 +41,11 @@ type application struct {
 func main() {
 	var cfg config
 
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	env.CheckENV()
 
-	flag.IntVar(&cfg.port, "port", 4000, "Server port will be listen on")
-	flag.StringVar(&cfg.env, "environment", os.Getenv("ENVIRONMENT"), "Application environment")
-	flag.StringVar(&cfg.db.dsn, "dsn", os.Getenv("MONGODB_URI"), "Database URI")
+	flag.StringVar(&cfg.port, "port", env.MustGet("PORT"), "Server port will be listen on")
+	flag.StringVar(&cfg.env, "environment", env.MustGet("ENVIRONMENT"), "Application environment")
+	flag.StringVar(&cfg.db.dsn, "dsn", env.MustGet("MONGODB_URI"), "Database URI")
 	flag.Parse()
 
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
@@ -73,7 +70,7 @@ func main() {
 	logger.Println("Pepare to start")
 
 	srv := &http.Server{
-		Addr:         fmt.Sprintf(":%d", cfg.port),
+		Addr:         fmt.Sprintf(":%v", cfg.port),
 		Handler:      app.routes(),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  time.Second * 10,
