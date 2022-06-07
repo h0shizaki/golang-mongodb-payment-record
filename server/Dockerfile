@@ -9,8 +9,7 @@ RUN go mod download
 COPY ./ ./
 
 ENV ENVIRONMENT=Production
-ENV MONGODB_URI=mongodb://mongo:cosmos@localhost:27017/
-ENV PORT=4000
+ENV MONGODB_URI=mongodb://mongo:cosmos@host.docker.internal:27017/
 
 RUN go build -o ./build/server.exe ./cmd/api
 
