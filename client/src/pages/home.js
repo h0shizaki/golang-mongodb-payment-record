@@ -32,8 +32,8 @@ const Home = () => {
             body: payload
         }
         console.log(requestOption)
-
-        fetch(`${process.env.REACT_APP_BACKEND}/v1/add`, requestOption)
+        
+        fetch(`${process.env.REACT_APP_BACKEND}/api/add`, requestOption)
             .then((res) => res.json())
             .then(data => {
                 if (data.status === "OK") {
@@ -44,7 +44,9 @@ const Home = () => {
                     setAlert("Failed")
                 }
             })
-
+        
+        setItemName('')
+        setItemPrice('')
     }
 
     return (
@@ -54,7 +56,7 @@ const Home = () => {
                     {alert}
                 </div>
             )}
-
+        
             <Fragment>
                 <div className="h1">
                     Add Record
@@ -66,6 +68,7 @@ const Home = () => {
                         name={"recordName"}
                         handleChange={handleName}
                         placeholder={'Record name'}
+                        value={itemName}   
                     />
 
                     <Input
@@ -74,6 +77,7 @@ const Home = () => {
                         name={"price"}
                         handleChange={handlePrice}
                         placeholder={'Price'}
+                        value={itemPrice}
                     />
                     <button className="btn btn-primary">Submit</button>
                 </form>
