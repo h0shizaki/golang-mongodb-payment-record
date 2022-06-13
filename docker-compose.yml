@@ -21,8 +21,8 @@ services:
     - "4000:4000"
     networks :
     - default
-    # depends_on:
-    #   - mongodb
+    depends_on:
+      - mongodb
 
   client: 
     build: 

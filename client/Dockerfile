@@ -9,7 +9,7 @@ WORKDIR /usr/app
 RUN npm install
 
 ENV PATH usr/src/app/node_modules/.bin:$PATH
-ENV REACT_APP_BACKEND http://host.docker.internal:3030
+ENV REACT_APP_BACKEND http://host.docker.internal:4000
 
 RUN npm run build
 
